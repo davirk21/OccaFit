@@ -30,13 +30,7 @@ class Profile extends Component {
 		this.props.getAboutMe(id);
   }
 
-  componentWillMount() {
-		var id = this.props.match.params.id;
-			this.props.getUser(id);
-			this.pullAboutMeData();
-			this.getActivities();
-			this.getFriends();
-	}
+
 
 	// componentDidUpdate(){
 	// 	//this.checkAuth();
@@ -66,14 +60,34 @@ class Profile extends Component {
 	// 	console.log('PARAMETER :id', this.props.match.params.id);
 	// }
 
+
 	getActivities() {
 		var id = this.props.match.params.id;
 		this.props.getUserActivities(id);
 	}
 
+
 	getFriends() {
 		var id = this.props.match.params.id;
 		this.props.getUserFriends(id);
+
+   componentDidMount(){
+     this.pullAboutMeData();
+  }
+
+
+  images = ['daniel.jpg', 'elliot.jpg', 'matthew.png', 'rachel.png'];
+
+  user = '/' + this.images[Math.floor(Math.random() * this.images.length)];
+
+
+	getActivities() {
+		fetch('/profile/activities', { credentials: "include", headers: {user: this.props.user.id} })
+		.then(resp => resp.json())
+		.then(resp => {
+			this.setState({ activities: resp });
+		});
+
 	}
 
 	render() {
