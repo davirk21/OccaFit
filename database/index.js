@@ -243,11 +243,8 @@ var insertAboutMe = function(options, callback) {
 };
 
 var friendList = function (userId, callback) {
-<<<<<<< HEAD
   var query1 = `(SELECT userOneId from relationship WHERE userTwoId = ${userId} AND statusId = 1) Union (SELECT userTwoId from relationship WHERE userOneId = ${userId} AND statusId = 1)`;
-=======
-  var query1 = "(Select userOneId from relationship where userTwoId = ? ) Union (Select userTwoId from relationship where userOneId = ?)";
->>>>>>> profile to update image from datbase
+
   connection.query(query1, [userId, userId], function(err, result) {
     if(err) {
       console.error('error on query 1 of friendlist');
@@ -343,7 +340,7 @@ var getUsers = function(callback) {
       callback(error);
     } else {
       callback(results);
-<<<<<<< HEAD
+
     };
   });
 };
@@ -360,10 +357,6 @@ var getPendingFriendRequests = function(id, callback) {
     };
   });
 };
-=======
-    }
-  })
-}
 
 var addImage = function(url, id, callback) {
   var query = "UPDATE users SET imageUrl=? WHERE id=?";

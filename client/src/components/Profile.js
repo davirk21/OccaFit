@@ -85,24 +85,12 @@ class Profile extends Component {
   user = '/' + this.images[Math.floor(Math.random() * this.images.length)];
 
 
-
-	getActivities() {
-		fetch('/profile/activities', { credentials: "include", headers: {user: this.props.user.id} })
-		.then(resp => resp.json())
-		.then(resp => {
-			this.setState({ activities: resp });
-		});
-
-	}
-
-
-
 	render() {
 		return (
 			[<Container style={{marginTop: '20px'}} id="profile">
 
 				{this.props.user && this.props.currentProfile 
-					? <ProfilePic image= {'/daniel.jpg'} user={this.props.currentProfile} currentUser={this.props.user} name={this.props.currentProfile && this.props.currentProfile.name} checkFriendStatus={this.props.checkFriendStatus} friendStatus={this.props.friendStatus} requested={this.props.requested}/>
+					? <ProfilePic image= {this.props.currentProfile.imageUrl} user={this.props.currentProfile} currentUser={this.props.user} name={this.props.currentProfile && this.props.currentProfile.name} checkFriendStatus={this.props.checkFriendStatus} friendStatus={this.props.friendStatus} requested={this.props.requested}/>
 
 					: null
 				}
