@@ -30,6 +30,13 @@ class Profile extends Component {
 		this.props.getAboutMe(id);
   }
 
+  componentWillMount() {
+  	var id = this.props.match.params.id;
+  	this.props.getUser(id);
+  	this.pullAboutMeData();
+  	this.getActivities();
+  	this.getFriends();
+  }
 
 
 	// componentDidUpdate(){
@@ -61,6 +68,7 @@ class Profile extends Component {
 	// }
 
 
+
 	getActivities() {
 		var id = this.props.match.params.id;
 		this.props.getUserActivities(id);
@@ -70,15 +78,12 @@ class Profile extends Component {
 	getFriends() {
 		var id = this.props.match.params.id;
 		this.props.getUserFriends(id);
-
-   componentDidMount(){
-     this.pullAboutMeData();
-  }
-
+	}
 
   images = ['daniel.jpg', 'elliot.jpg', 'matthew.png', 'rachel.png'];
 
   user = '/' + this.images[Math.floor(Math.random() * this.images.length)];
+
 
 
 	getActivities() {
@@ -90,11 +95,15 @@ class Profile extends Component {
 
 	}
 
+
+
 	render() {
 		return (
 			[<Container style={{marginTop: '20px'}} id="profile">
-				{this.props.user && this.props.currentProfile
-					? <ProfilePic user={this.props.currentProfile} currentUser={this.props.user} name={this.props.currentProfile && this.props.currentProfile.name} checkFriendStatus={this.props.checkFriendStatus} friendStatus={this.props.friendStatus} requested={this.props.requested} accepted={this.props.accepted}/>
+
+				{this.props.user && this.props.currentProfile 
+					? <ProfilePic image= {'/daniel.jpg'} user={this.props.currentProfile} currentUser={this.props.user} name={this.props.currentProfile && this.props.currentProfile.name} checkFriendStatus={this.props.checkFriendStatus} friendStatus={this.props.friendStatus} requested={this.props.requested}/>
+
 					: null
 				}
 				<Card.Group itemsPerRow={3}>
