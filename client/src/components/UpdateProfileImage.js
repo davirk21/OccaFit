@@ -11,74 +11,68 @@ class UpdateImage extends React.Component {
     }
 
   uploadImage (files) {
-  	console.log('uploadFile: ')
-  	const image = files[0];
+	console.log('uploadFile: ')
+	const image = files[0];
 
-  	const cloudName = 'hr-82';
-  	const url = 'https://api.cloudinary.com/v1_1/'+ cloudName+'/image/upload'
+	const cloudName = 'hr-82';
+	const url = 'https://api.cloudinary.com/v1_1/'+ cloudName+'/image/upload'
 
-  	const timestamp = Date.now()/1000
-  	const uploadPreset = 'rggovxew'
+	const timestamp = Date.now()/1000
+	const uploadPreset = 'rggovxew'
 
-  	const paramsStr = 'timestamp='+timestamp+'&upload_preset='+uploadPreset+'RM3sL5qRzjOkgMNCiXpLEn0pmm4'
+	const paramsStr = 'timestamp='+timestamp+'&upload_preset='+uploadPreset+'RM3sL5qRzjOkgMNCiXpLEn0pmm4'
 
-  	const signature = sha1(paramsStr)
+	const signature = sha1(paramsStr)
 
-  	const params = {
-  		'api_key': '579362539817296',
-  		'timestamp': timestamp,
-  		'crop': `fill, width: 150, height: 100`,
-  		'upload_preset': uploadPreset,
-  		'signature': signature
-  	}
+	const params = {
+		'api_key': '',
+		'timestamp': timestamp,
+		'crop': `fill, width: 150, height: 100`,
+		'upload_preset': uploadPreset,
+		'signature': signature
+	}
 
-  	let uploadRequest = superagent.post(url)
-  	uploadRequest.attach('file', image)
+	let uploadRequest = superagent.post(url)
+	uploadRequest.attach('file', image)
 
-  	Object.keys(params).forEach((key) => {
-  		uploadRequest.field(key, params[key])
-  	})
+	Object.keys(params).forEach((key) => {
+		uploadRequest.field(key, params[key])
+	})
 
-  	uploadRequest.end((err, resp)=> {
-  		if(err) {
-  			alert(err)
-  			return
-  		}
-  		console.log('Upload complete: '+ JSON.stringify(resp.body.url))
-
-  		this.changeImage(resp.body.url)
-
-  	})
-
+	uploadRequest.end((err, resp)=> {
+		if(err) {
+			alert(err)
+			return
+		}
+		//console.log('Upload complete: '+ JSON.stringify(resp.body.url))
+		this.changeImage(resp.body.url)
+	})
   }
 
   changeImage (url) {
-  	
   	this.props.changePicture(url)
 
   	var id = this.props.current
   	this.props.sendImage(url)
-
-
   }
   
 
   render() {
      return (
        <Modal trigger={<Button>Edit Photo</Button>}>
-			    <Modal.Header>Select a Photo</Modal.Header>
-			    <Modal.Content image>
-			      <div>
-			      {console.log("propppp", this.props)}
-			      <Dropzone onDrop={this.uploadImage.bind(this)}/>
-			      </div>
-			      <Modal.Description id='modalDescription'>
-			        <Header>Upload Profile Image</Header>
-			        <p>We've found the following gravatar image associated with your e-mail address.</p>
-			        <p>Is it okay to use this photo?</p>
-			      </Modal.Description>
-			    </Modal.Content>
-			  </Modal>
+	    <Modal.Header>Select a Photo</Modal.Header>
+	    <Modal.Content image>
+	      <div>
+	      {console.log("propppp", this.props)}
+	      <Dropzone onDrop={this.uploadImage.bind(this)}/>
+	      </div>
+	      <Modal.Description id='modalDescription'>
+		<Header>Upload Profile Image</Header>
+		<p>We've found the following gravatar image associated with your e-mail address.</p>
+		<p>Is it okay to use this photo?</p>
+	      </Modal.Description>
+	    </Modal.Content>
+	  </Modal>
      );
    }
 }
